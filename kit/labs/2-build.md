@@ -83,9 +83,9 @@ Plus Harness is using the [fastest bare-metal hardware](https://www.harness.io/p
 > **Build and Push an image to Dockerhub**
 > - Name: <pre>`Push to Dockerhub`</pre>
 > - Docker Connector: `workshop-docker`
-> - Docker Repository: <pre>`seworkshop/harness-workshop`</pre>
+> - Docker Repository: <pre>`edslatt/harness-demo`</pre>
 > - Tags: Click `+ Add`
-> - <pre><code><+variable.username>-<+pipeline.sequenceId></code></pre>
+> - <pre><code>demo-base-<+pipeline.sequenceId></code></pre>
 > - **Optional Configuration  ⏷** *(Required for this Lab)*
 >   - Dockerfile: <pre>`/harness/frontend-app/harness-webapp/Dockerfile`</pre>
 >   - Context: <pre>`/harness/frontend-app/harness-webapp`</pre>

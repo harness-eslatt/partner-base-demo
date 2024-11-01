@@ -1,0 +1,36 @@
+service:
+  name: backend
+  identifier: backend
+  orgIdentifier: WorkshopOrg
+  projectIdentifier: unscriptedf197002b9a
+  serviceDefinition:
+    spec:
+      manifests:
+        - manifest:
+            identifier: backend
+            type: K8sManifest
+            spec:
+              store:
+                type: HarnessCode
+                spec:
+                  repoName: harnessrepo
+                  gitFetchType: Branch
+                  paths:
+                    - harness-deploy/backend/manifests
+                  branch: main
+              valuesPaths:
+                - harness-deploy/backend/values.yaml
+              skipResourceVersioning: false
+              enableDeclarativeRollback: false
+      artifacts:
+        primary:
+          primaryArtifactRef: <+input>
+          sources:
+            - spec:
+                connectorRef: org.workshopdocker
+                imagePath: seworkshop/harness-workshop
+                tag: backend-latest
+                digest: ""
+              identifier: backend
+              type: DockerRegistry
+    type: Kubernetes

@@ -48,8 +48,8 @@ Click `+Add Stage` <br>
 >       2) Artifact Repository: `workshop-docker`
 >       3) Artifact Location
 >         -  Artifact Source Identifier: <pre>`frontend`</pre>
->         -  Image Path: <pre>`seworkshop/harness-workshop`</pre>
->         -  Tag: <pre><code><+variable.username>-<+pipeline.sequenceId></code></pre> \
+>         -  Image Path: <pre>`edslatt/harness-demo`</pre>
+>         -  Tag: <pre><code>demo-base-<+pipeline.sequenceId></code></pre> \
 >               (change the field type to expression) \
 >               ![](https://raw.githubusercontent.com/harness-community/field-workshops/main/assets/images/change_input_expression.png)
 >     - Click **Submit >**

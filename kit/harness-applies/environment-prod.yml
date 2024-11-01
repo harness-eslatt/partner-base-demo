@@ -1,0 +1,7 @@
+environment:
+  name: Prod
+  identifier: prod
+  tags: {}
+  type: Production
+  orgIdentifier: default
+  projectIdentifier: instruqt2

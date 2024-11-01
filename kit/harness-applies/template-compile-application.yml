@@ -1,0 +1,34 @@
+template:
+  name: "Compile Application"
+  identifier: "Compile_Application"
+  versionLabel: "v0.1"
+  type: Step
+  projectIdentifier: instruqt2
+  orgIdentifier: default
+  tags: {}
+  spec:
+    type: Run
+    spec:
+      connectorRef: workshopdocker
+      image: node:20-alpine
+      shell: Sh
+      command: |-
+        cd frontend-app/harness-webapp
+        npm install
+        npm install -g @angular/cli
+
+        mkdir -p ./src/environments
+        echo "export const environment = {
+          production: true,
+          defaultApiUrl: "'"https://backend.sandbox.<+variable.sandbox_id>.instruqt.io"'",
+          defaultSDKKey: "'"<+variable.sdk>"'"
+        };" > ./src/environments/environment.prod.ts
+
+
+        echo "export const environment = {
+          production: true,
+          defaultApiUrl: "'"https://backend.sandbox.<+variable.sandbox_id>.instruqt.io"'",
+          defaultSDKKey: "'"<+variable.sdk>"'"
+        };" > ./src/environments/environment.ts
+
+        npm run build
