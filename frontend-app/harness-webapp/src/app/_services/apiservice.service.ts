@@ -18,7 +18,8 @@ export class ApiserviceService {
   private APIUrl: string;
 
   constructor(private http: HttpClient, private configService: ConfigService) {
-    this.APIUrl = this.configService.getApiUrl();
+   // this.APIUrl = this.configService.getApiUrl();
+    this.APIUrl = '/backend';
     console.log('API URL in API Service:', this.APIUrl);  
 
   }
