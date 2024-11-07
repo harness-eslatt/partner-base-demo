@@ -30,6 +30,8 @@ the following two changes stopped me from being able to browse the landing page
 I'm trying to change it because its being used for the ajax calls back to the server
 
 TODO
+- see that I can break src/app/_services/config.service.ts 
+
 
 questions
 - which of the two files is being used?
