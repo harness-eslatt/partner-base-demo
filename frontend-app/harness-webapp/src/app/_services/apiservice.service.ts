@@ -19,9 +19,8 @@ export class ApiserviceService {
 
   constructor(private http: HttpClient, private configService: ConfigService) {
     this.APIUrl = this.configService.getApiUrl();
-    this.APIUrl = ''; // empty string fails.. but why?  how?
-    console.log('ess hardwired to empty string API URL in API Service:', this.APIUrl);  
-    process.stdout.flush();
+    console.log('API URL in API Service:', this.APIUrl);  
+
   }
   httpOptions = {
     headers: new HttpHeaders({
