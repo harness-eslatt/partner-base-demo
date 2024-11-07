@@ -98,10 +98,10 @@ problem
 
 solution
   setup a proxy on the front end that sends anything wanting to get to the backend to the backend
-  steps
-    put the url back to what was working and see that I can browse the front end again
+  todo
     add the RUN apk add gettext &&  npm install http-proxy-middleware and see that I can still browse the front end
     add the server.ts proxy piece and see still browse the front end
     change the url prefix and see the the app starts being able to use the backend services
   done
+    put the url back to what was working and see that I can browse the front end again
 
