@@ -5,12 +5,14 @@ import { environment } from '../../environments/environment';
   providedIn: 'root'
 })
 export class ConfigService {
-  apiUrl= environment.defaultApiUrl;
+ // apiUrl= environment.defaultApiUrl;
+  apiUrl= 'https://backend.slatt.ed.instruqt.io';
   sdkKey= environment.defaultSDKKey;
 
   constructor() {
-      this.apiUrl = environment.defaultApiUrl;
-    }
+   // this.apiUrl = environment.defaultApiUrl;
+    this.apiUrl = 'https://backend.slatt.ed.instruqt.io';
+  }
 
 
   getApiUrl(): string {
@@ -26,5 +28,3 @@ export class ConfigService {
 
 
 }
-
-putting this text in here to break the build to test understanding

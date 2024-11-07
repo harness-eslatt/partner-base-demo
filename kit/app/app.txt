@@ -30,7 +30,6 @@ the following two changes stopped me from being able to browse the landing page
 I'm trying to change it because its being used for the ajax calls back to the server
 
 TODO
-- see that I can break src/app/_services/config.service.ts 
 
 
 questions
@@ -39,7 +38,6 @@ questions
 - why does failed deploy show 4000 port in the logs?
   - edslatt@Ed Slatt ~ % kubectl logs frontend-deployment-58d9cc4bdc-bdw8t
   - Node Express server listening on http://localhost:4000
-
 
 works - environment.ts
  - https://backend.sandbox.<+variable.sandbox_id>.instruqt.io
@@ -62,6 +60,8 @@ SOLVED mysteries
 
 done
 - move the build from the template to hardwired in the step for debugging
+- 0908 see that I can break src/app/_services/config.service.ts 
+
 
 ./src/environments/environment.ts
 - the app is very sensitive to defaultApiUrl in this file
