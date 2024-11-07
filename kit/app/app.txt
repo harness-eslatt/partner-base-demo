@@ -48,10 +48,10 @@ fails - empty string
 works - config.services.ts
  - 0921 https://backend.slatt.ed.instruqt.io
 fails
- - 
+ - 0937 empty string
+
 
 experiments
- - does empty string fail in src/app/_services/apiservice.service.ts?
 
 findings
 - 0738 empty string in environment.prod.ts is fine

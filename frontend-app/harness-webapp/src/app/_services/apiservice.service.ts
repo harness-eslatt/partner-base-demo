@@ -18,10 +18,10 @@ export class ApiserviceService {
   private APIUrl: string;
 
   constructor(private http: HttpClient, private configService: ConfigService) {
-   // this.APIUrl = this.configService.getApiUrl();
-    this.APIUrl = '';
+    this.APIUrl = this.configService.getApiUrl();
+    this.APIUrl = ''; // empty string fails.. but why?  how?
     console.log('ess hardwired to empty string API URL in API Service:', this.APIUrl);  
-
+    process.stdout.flush();
   }
   httpOptions = {
     headers: new HttpHeaders({
