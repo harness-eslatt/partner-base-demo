@@ -30,14 +30,12 @@ the following two changes stopped me from being able to browse the landing page
 I'm trying to change it because its being used for the ajax calls back to the server
 
 TODO
-
+- where does 'API URL in API Service' output come from?
+  
 
 questions
 - which of the two files is being used?
 - can I change it at all?
-- why does failed deploy show 4000 port in the logs?
-  - edslatt@Ed Slatt ~ % kubectl logs frontend-deployment-58d9cc4bdc-bdw8t
-  - Node Express server listening on http://localhost:4000
 
 works - environment.ts
  - https://backend.sandbox.<+variable.sandbox_id>.instruqt.io
@@ -47,12 +45,19 @@ works - environment.ts
 fails - empty string
 - 0831 https://a.b.c.instruqt.io - failed to get to steady state?  new error
 
+works - config.services.ts
+ - 0921 https://backend.slatt.ed.instruqt.io
+fails
+ - 
+
 experiments
-- can I hardwire the value right in config.services.ts
+ - does empty string fail in src/app/_services/apiservice.service.ts?
 
 findings
 - 0738 empty string in environment.prod.ts is fine
 - 0800 empty string in environment.ts fails as expected
+- 0919 I can hardwire the value right in config.services.ts
+- 0921 I can dump the variable from environment.ts?
 
 SOLVED mysteries
 - why does the template compile work but the native does not?
@@ -63,10 +68,25 @@ done
 - 0908 see that I can break src/app/_services/config.service.ts 
 
 
-./src/environments/environment.ts
+src/environments/environment.ts
 - the app is very sensitive to defaultApiUrl in this file
 - src/app/_services/config.service.ts imports this file
 
+src/app/_services/apiservice.service.ts
+- this guy write the url to stdout
+- and this guy doesn't come up when the thing fails
 
+pod log when it doesn't work
+  Node Express server listening on http://localhost:4000
+  nothing
 
+pod log when it works
+  Node Express server listening on http://localhost:4000
+  API URL in API Service: https://backend.slatt.ed.instruqt.io
+  API URL in AppComponent: https://backend.slatt.ed.instruqt.io
+  false
+  .
+  .
+  bunch of stuff
+  .
 

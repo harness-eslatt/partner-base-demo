@@ -18,8 +18,9 @@ export class ApiserviceService {
   private APIUrl: string;
 
   constructor(private http: HttpClient, private configService: ConfigService) {
-    this.APIUrl = this.configService.getApiUrl();
-    console.log('API URL in API Service:', this.APIUrl);  
+   // this.APIUrl = this.configService.getApiUrl();
+    this.APIUrl = '';
+    console.log('ess hardwired to empty string API URL in API Service:', this.APIUrl);  
 
   }
   httpOptions = {
