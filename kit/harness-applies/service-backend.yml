@@ -13,7 +13,7 @@ service:
               store:
                 type: HarnessCode
                 spec:
-                  repoName: harnessrepo
+                  repoName: i201
                   gitFetchType: Branch
                   paths:
                     - harness-deploy/backend/manifests

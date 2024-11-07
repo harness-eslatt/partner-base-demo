@@ -1,0 +1,70 @@
+# Generate a normal entry
+curl -X POST http://10.106.73.151:8080/deploy/create -H "Content-Type: application/json" -d '{"name":"normal"}'
+
+# Generate a canary entry
+curl -X POST http://10.106.73.151:8080/deploy/create -H "Content-Type: application/json" -d '{"name":"canary"}'
+
+# Get distribution (last hour)
+curl -X GET "http://10.106.73.151:8080/deploy/distribution?start_timestamp=$(date -u -d '1 hour ago' '+%Y-%m-%dT%H:%M:%SZ')&end_timestamp=$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+
+# Get bar distribution (last hour)
+curl -X GET "http://10.106.73.151:8080/deploy/distribution/bar?start_timestamp=$(date -u -d '1 hour ago' '+%Y-%m-%dT%H:%M:%SZ')&end_timestamp=$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+
+# Get execution details
+curl -X GET http://10.106.73.151:8080/deploy/execution
+
+# Check release
+curl -X GET http://10.106.73.151:8080/deploy/check/release
+
+
+2024-11-07 mystery - and I think this will be a fun one
+the CI based build script creates two files: 
+  ./src/environments/environment.prod.ts and
+  ./src/environments/environment.ts
+
+it seems to have a defaultApiUrl attribute hardwired to instruqt.io
+the following two changes stopped me from being able to browse the landing page
+  changing this att to empty string (at least I tried)
+  changing this att to http://10.106.73.151:8080
+
+I'm trying to change it because its being used for the ajax calls back to the server
+
+TODO
+
+questions
+- which of the two files is being used?
+- can I change it at all?
+- why does failed deploy show 4000 port in the logs?
+  - edslatt@Ed Slatt ~ % kubectl logs frontend-deployment-58d9cc4bdc-bdw8t
+  - Node Express server listening on http://localhost:4000
+
+
+works - environment.ts
+ - https://backend.sandbox.<+variable.sandbox_id>.instruqt.io
+ - 0801 https://backend.sandbox.ed.instruqt.io
+ - 0843 https://backend.sandbox.ed.instruqt.io puting environment.ts first
+ - 0850 https://backend.slatt.ed.instruqt.io
+fails - empty string
+- 0831 https://a.b.c.instruqt.io - failed to get to steady state?  new error
+
+experiments
+- can I hardwire the value right in config.services.ts
+
+findings
+- 0738 empty string in environment.prod.ts is fine
+- 0800 empty string in environment.ts fails as expected
+
+SOLVED mysteries
+- why does the template compile work but the native does not?
+  - WIP had to use a specific docker image
+
+done
+- move the build from the template to hardwired in the step for debugging
+
+./src/environments/environment.ts
+- the app is very sensitive to defaultApiUrl in this file
+- src/app/_services/config.service.ts imports this file
+
+
+
+

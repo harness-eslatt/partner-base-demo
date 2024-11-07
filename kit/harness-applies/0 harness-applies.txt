@@ -14,3 +14,5 @@ infrastructure k8s dev is found via the dev environment
 
 templates not supported
 harness template --file template-compile-application.yml apply
+
+harness connector --file connector-prometheus.yml apply
