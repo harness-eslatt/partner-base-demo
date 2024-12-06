@@ -11,10 +11,13 @@
   add a test intelligence step
   add templated step Compile
   add build and push docker imate step
-  run the pipeline
-    I like to see the image land in harbor
+  run the pipeline and see image land in github
 3-cd-frontend
-  
+  TODO - confirm idents below`  
+  add k8s type deployent stage
+    create service "frontend"
+  run it and see pods land in minikube
+  TODO - can I curl them?
 4-cd-backend
 5-security - can't do it until promoted
 6-cv

@@ -13,10 +13,12 @@ compute - video uses mbp m1
 docker hub account and registry
   TODO edslatt/harness-demo
 harness account - video uses fresh harness account against a fresh gmail to ensure representative experience
-  repo
+  TODO - might do it all ui yaml for simplicity?
+  log into cli
+  repo (ui)
     create repo, get clone pat, git commands below to push this repo to new repo in new harness account
     TODO git commands as per above (in rtf)
-  templates
+  templates (ui)
     TODO
       how to do this
       templates aren't supported in cli
@@ -26,7 +28,21 @@ harness account - video uses fresh harness account against a fresh gmail to ensu
   connectors
     "workshop-docker" - docker hub connector
       TODO directions - see rtf lab 2 notes
+    "instruqt_k8"
+      TODO directions - a little help in lab 3 notes
   project variables
     TODO docker hub user name - see rtf lab 2
   project secrets
     TODO docker hub pat - see rtf lab 2
+  environments (cli)
+    dev
+      TODO - easy via CLI
+    prod
+      TODO - easy via CLI
+  infrastracture
+    k8s dev
+      TODO - see rtf lab 3
+
+harness elements created during the demo
+  pipeline
+  service frontend
