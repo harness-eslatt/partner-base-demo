@@ -1,0 +1,19 @@
+0-login - login to harness
+1-coderepo - can't push a secret
+  browse into the harness code repo module
+  generate a clone credential and bake it into your environment
+  add something sensitive to your git repo that should not be allowed on the server
+  try to push and see that's its blocked
+2-build
+  create a pipeline with build stage against harness cloud and our repo
+  add a test intelligence step
+  add templated step Compile
+  add build and push docker imate step
+  run the pipeline
+    I like to see the image land in harbor
+3-cd-frontend
+  
+4-cd-backend
+5-security - can't do it until promoted
+6-cv
+7-opa - can't do it until promoted

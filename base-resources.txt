@@ -1,0 +1,13 @@
+compute - video uses mbp m1
+  git
+  vs code with md preview plugin
+  this demo kit repo
+    base-resources.txt - terse list of required resources (this file)
+    base-demo.txt - terse demo click through guidance
+    labs markdown - instructions for the base demo
+  docker (colima)
+  helm
+  harness cli
+  minikube
+    harness delegate
+harness account - video uses fresh harness account against a fresh gmail to ensure representative experience
