@@ -16,6 +16,9 @@ compute - video uses mbp m1
   harness cli
   minikube
     harness delegate
+    prometheus
+      kubectl create namespace monitoring
+      kubectl -n monitoring apply -f ./misc/prometheus.yml
 docker hub account and registry
   TODO edslatt/harness-demo
   TODO might need backend container in github.. to get the architecture right
@@ -32,14 +35,16 @@ harness account - video uses fresh harness account against a fresh gmail to ensu
       use JEXL for the account stuff to make the yml constant
     2-build - second step
     TODO security lab?
-  connectors
+  connectors (cli)
     "workshop-docker" - docker hub connector
       TODO directions - see rtf lab 2 notes
     "instruqt_k8"
       TODO directions - a little help in lab 3 notes
+    "Prometheus"
+      harness connector --file ./harness-applies/connector-prometheus.yml apply
   project variables
     TODO docker hub user name - see rtf lab 2
-  project secrets
+  project secrets (cli)
     TODO docker hub pat - see rtf lab 2
   environments (cli)
     dev

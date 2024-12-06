@@ -26,4 +26,12 @@
   TODO - does it work?
 5-security - can't do it until promoted
 6-cv
+  add verify step in backend deployment stage after canary deployment
+    "Verify", canary, low, 5mins
+  run the pipeline
+  browse the hello world app
+    keep clicking "check release" trying to spot the "carary"
+      the "canary" is a yellow cartoon graphic that gets served by the carary pod
+    click the "start" button on the distribution panel and then "play"
+  go back to the harness ui and view the veriy data
 7-opa - can't do it until promoted
