@@ -1,3 +1,9 @@
+TODO
+  how to tune all the yaml in this repo for the user specific
+    like container name or whatever
+    probably have to move to JEXL and register project variables
+    get it to go with hardwired values first
+
 compute - video uses mbp m1
   git
   vs code with md preview plugin
@@ -12,6 +18,7 @@ compute - video uses mbp m1
     harness delegate
 docker hub account and registry
   TODO edslatt/harness-demo
+  TODO might need backend container in github.. to get the architecture right
 harness account - video uses fresh harness account against a fresh gmail to ensure representative experience
   TODO - might do it all ui yaml for simplicity?
   log into cli
@@ -42,6 +49,8 @@ harness account - video uses fresh harness account against a fresh gmail to ensu
   infrastracture
     k8s dev
       TODO - see rtf lab 3
+  service
+    backend
 
 harness elements created during the demo
   pipeline
