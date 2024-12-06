@@ -10,4 +10,23 @@ compute - video uses mbp m1
   harness cli
   minikube
     harness delegate
+docker hub account and registry
+  TODO edslatt/harness-demo
 harness account - video uses fresh harness account against a fresh gmail to ensure representative experience
+  repo
+    create repo, get clone pat, git commands below to push this repo to new repo in new harness account
+    TODO git commands as per above (in rtf)
+  templates
+    TODO
+      how to do this
+      templates aren't supported in cli
+      use JEXL for the account stuff to make the yml constant
+    2-build - second step
+    TODO security lab?
+  connectors
+    "workshop-docker" - docker hub connector
+      TODO directions - see rtf lab 2 notes
+  project variables
+    TODO docker hub user name - see rtf lab 2
+  project secrets
+    TODO docker hub pat - see rtf lab 2

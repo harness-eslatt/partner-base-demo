@@ -6,6 +6,8 @@
   try to push and see that's its blocked
 2-build
   create a pipeline with build stage against harness cloud and our repo
+    when setting up agasint harness cloud be sure to choose architecture consistent with your compute
+      arm64 for video since running on mbp m1
   add a test intelligence step
   add templated step Compile
   add build and push docker imate step
