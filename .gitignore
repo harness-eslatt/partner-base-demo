@@ -36,3 +36,10 @@ yarn-error.log*
 next-env.d.ts
 
 .vscode
+
+# terraform
+.terraform.lock.hcl
+.terraform
+*.tfplan
+*.tfstate
+*.tfstate.backup

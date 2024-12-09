@@ -1,7 +1,0 @@
-environment:
-  name: Dev
-  identifier: dev
-  tags: {}
-  type: PreProduction
-  orgIdentifier: default
-  projectIdentifier: instruqt2

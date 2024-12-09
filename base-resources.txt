@@ -20,42 +20,46 @@ compute - video uses mbp m1
       kubectl create namespace monitoring
       kubectl -n monitoring apply -f ./misc/prometheus.yml
 docker hub account and registry
-  TODO edslatt/harness-demo
+  create a docker hub account if you don't have one
+  create TODO project? in your docker hub account named harness-demo
   TODO might need backend container in github.. to get the architecture right
 harness account - video uses fresh harness account against a fresh gmail to ensure representative experience
-  TODO - might do it all ui yaml for simplicity?
+  turn on CI and CD
+  get account id
+  get pat
+  create project Base Demo with slug Base_Demo
+  terraform
+    preparation
+      cd into kit such that ./main.tf exists
+      update se-parms.tfvars with your values
+      set env var DEMO_BASE_PAT
+    commands
+      terraform init
+      terraform plan -var="pat=$DEMO_BASE_PAT" -var-file="se-parms.tfvars" -out=plan.tfplan 
+      terraform apply -auto-approve plan.tfplan
+
+      terraform destroy -auto-approve -target=harness_platform_template.compile_application -var="pat=$DEMO_BASE_PAT" -var-file="se-parms.tfvars"
+      terraform destroy -auto-approve -target=harness_platform_connector_docker.workshopdocker -var="pat=$DEMO_BASE_PAT" -var-file="se-parms.tfvars"
+    covers
+      connector k8s
+      connector docker
+      connector prometheus
+      secret docker password
+      secret docker username
+      template compile application
+      environment dev
+      environment prod
+      infrastructure k8s dev
+      service backend
+
   log into cli
+    harness login --account-id $DEMO_BASE_ACCOUNT_ID --api-key $DEMO_BASE_PAT
   repo (ui)
     create repo, get clone pat, git commands below to push this repo to new repo in new harness account
-    TODO git commands as per above (in rtf)
-  templates (ui)
-    TODO
-      how to do this
-      templates aren't supported in cli
-      use JEXL for the account stuff to make the yml constant
-    2-build - second step
-    TODO security lab?
-  connectors (cli)
-    "workshop-docker" - docker hub connector
-      TODO directions - see rtf lab 2 notes
-    "instruqt_k8"
-      TODO directions - a little help in lab 3 notes
-    "Prometheus"
-      harness connector --file ./harness-applies/connector-prometheus.yml apply
-  project variables
-    TODO docker hub user name - see rtf lab 2
-  project secrets (cli)
-    TODO docker hub pat - see rtf lab 2
-  environments (cli)
-    dev
-      TODO - easy via CLI
-    prod
-      TODO - easy via CLI
-  infrastracture
-    k8s dev
-      TODO - see rtf lab 3
-  service
-    backend
+    git remote -v
+    git remote set-url origin https://username@github.com/username/repository.git
+    git push
+    'replace all' githubuser/harness-demo to {your github user account id for image path}/harness-demo 
 
 harness elements created during the demo
   pipeline
