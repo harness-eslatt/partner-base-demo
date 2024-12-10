@@ -15,9 +15,6 @@ variable "docker_password" {}
 variable "org_id" {
   default = "default"
 }
-variable "project_id" {
-  default = "Base_Demo"
-}
 
 provider "harness" {
     endpoint            = "https://app.harness.io/gateway"
@@ -25,9 +22,39 @@ provider "harness" {
     platform_api_key    = var.pat
 }
 
+resource "harness_platform_project" "base_demo" {
+  identifier = "Base_Demo"
+  name       = "Base Demo"
+  org_id     = var.org_id
+  color      = "#0063F7"
+}
+
+resource "harness_platform_repo" "partner_base_demo" {
+  identifier     = "partner_base_demo"
+  org_id         = var.org_id
+  project_id     = harness_platform_project.base_demo.identifier
+  default_branch = "main"
+  description    = "Base demo repository for Harness partner workshops"
+  source {
+    repo = "harness-eslatt/partner-base-demo"
+    type = "github"
+  }
+
+  depends_on = [
+    harness_platform_project.base_demo
+  ]
+
+  lifecycle {
+    ignore_changes = [
+      source,
+      description
+    ]
+  }
+}
+
 resource "harness_platform_connector_kubernetes" "instruqt" {
   org_id             = var.org_id
-  project_id         = var.project_id
+  project_id         = harness_platform_project.base_demo.identifier
   identifier         = "instruqt_k8"
   name               = "Instruqt K8s"
   description        = "Connector to Instruqt workshop K8s cluster"
@@ -35,33 +62,45 @@ resource "harness_platform_connector_kubernetes" "instruqt" {
   inherit_from_delegate {
     delegate_selectors = ["helm-delegate"]
   }
+
+  depends_on = [
+    harness_platform_project.base_demo
+  ]
 }
 
 resource "harness_platform_secret_text" "docker_username" {
   identifier                = "docker_username"
   name                      = "docker-username"
   org_id                    = var.org_id
-  project_id                = var.project_id
+  project_id                = harness_platform_project.base_demo.identifier
   secret_manager_identifier = "harnessSecretManager"
   value_type               = "Inline"
   value                    = var.docker_username
+
+  depends_on = [
+    harness_platform_project.base_demo
+  ]
 }
 
 resource "harness_platform_secret_text" "docker_password" {
   identifier                = "docker_password"
   name                      = "docker-pw"
   org_id                    = var.org_id
-  project_id                = var.project_id
+  project_id                = harness_platform_project.base_demo.identifier
   secret_manager_identifier = "harnessSecretManager"
   value_type               = "Inline"
   value                    = var.docker_password
+
+  depends_on = [
+    harness_platform_project.base_demo
+  ]
 }
 
 resource "harness_platform_connector_docker" "workshopdocker" {
   identifier  = "workshopdocker"
   name        = "Workshop Docker"
   org_id      = var.org_id
-  project_id  = var.project_id
+  project_id  = harness_platform_project.base_demo.identifier
   type        = "DockerHub"
   url         = "https://index.docker.io/v2/"
 
@@ -71,6 +110,7 @@ resource "harness_platform_connector_docker" "workshopdocker" {
   }
 
   depends_on = [
+    harness_platform_project.base_demo,
     harness_platform_secret_text.docker_username,
     harness_platform_secret_text.docker_password
   ]
@@ -79,7 +119,7 @@ resource "harness_platform_connector_docker" "workshopdocker" {
 resource "harness_platform_template" "compile_application" {
   identifier    = "Compile_Application"
   org_id        = var.org_id
-  project_id    = var.project_id
+  project_id    = harness_platform_project.base_demo.identifier
   name          = "Compile Application"
   version       = "v0.1"
   is_stable     = true
@@ -89,7 +129,7 @@ template:
   identifier: "Compile_Application"
   versionLabel: "v0.1"
   type: Step
-  projectIdentifier: ${var.project_id}
+  projectIdentifier: ${harness_platform_project.base_demo.identifier}
   orgIdentifier: ${var.org_id}
   tags: {}
   spec:
@@ -121,6 +161,7 @@ template:
   EOT
 
   depends_on = [
+    harness_platform_project.base_demo,
     harness_platform_connector_docker.workshopdocker
   ]
 }
@@ -129,17 +170,21 @@ resource "harness_platform_connector_prometheus" "prometheus" {
   identifier         = "prometheus"
   name               = "Prometheus"
   org_id             = var.org_id
-  project_id         = var.project_id
+  project_id         = harness_platform_project.base_demo.identifier
   description        = "Connector to Instruqt workshop Prometheus instance"
   url                = "http://prometheus-k8s.monitoring.svc.cluster.local:9090/"
   delegate_selectors = ["helm-delegate"]
+
+  depends_on = [
+    harness_platform_project.base_demo
+  ]
 }
 
 resource "harness_platform_environment" "dev" {
   identifier  = "dev"
   name        = "Dev"
   org_id      = var.org_id
-  project_id  = var.project_id
+  project_id  = harness_platform_project.base_demo.identifier
   type        = "PreProduction"
   tags        = []
   
@@ -150,15 +195,19 @@ environment:
   tags: {}
   type: PreProduction
   orgIdentifier: ${var.org_id}
-  projectIdentifier: ${var.project_id}
+  projectIdentifier: ${harness_platform_project.base_demo.identifier}
 EOT
+
+  depends_on = [
+    harness_platform_project.base_demo
+  ]
 }
 
 resource "harness_platform_environment" "prod" {
   identifier  = "prod"
   name        = "Prod"
   org_id      = var.org_id
-  project_id  = var.project_id
+  project_id  = harness_platform_project.base_demo.identifier
   type        = "Production"
   tags        = []
   
@@ -169,15 +218,19 @@ environment:
   tags: {}
   type: Production
   orgIdentifier: ${var.org_id}
-  projectIdentifier: ${var.project_id}
+  projectIdentifier: ${harness_platform_project.base_demo.identifier}
 EOT
+
+  depends_on = [
+    harness_platform_project.base_demo
+  ]
 }
 
 resource "harness_platform_infrastructure" "k8s_dev" {
   identifier      = "k8s_dev"
   name            = "K8s Dev"
   org_id          = var.org_id
-  project_id      = var.project_id
+  project_id      = harness_platform_project.base_demo.identifier
   env_id          = harness_platform_environment.dev.identifier
   type            = "KubernetesDirect"
   deployment_type = "Kubernetes"
@@ -189,7 +242,7 @@ infrastructureDefinition:
   tags:
     owner: ed.slatt
   orgIdentifier: ${var.org_id}
-  projectIdentifier: ${var.project_id}
+  projectIdentifier: ${harness_platform_project.base_demo.identifier}
   environmentRef: ${harness_platform_environment.dev.identifier}
   deploymentType: Kubernetes
   type: KubernetesDirect
@@ -201,6 +254,7 @@ infrastructureDefinition:
 EOT
 
   depends_on = [
+    harness_platform_project.base_demo,
     harness_platform_environment.dev,
     harness_platform_connector_kubernetes.instruqt
   ]
@@ -210,13 +264,13 @@ resource "harness_platform_service" "backend" {
   identifier  = "backend"
   name        = "backend"
   org_id      = var.org_id
-  project_id  = var.project_id
+  project_id  = harness_platform_project.base_demo.identifier
   yaml = <<-EOT
 service:
   name: backend
   identifier: backend
   orgIdentifier: ${var.org_id}
-  projectIdentifier: ${var.project_id}
+  projectIdentifier: ${harness_platform_project.base_demo.identifier}
   serviceDefinition:
     spec:
       manifests:
@@ -251,6 +305,7 @@ service:
 EOT
 
   depends_on = [
+    harness_platform_project.base_demo,
     harness_platform_connector_docker.workshopdocker
   ]
 }
