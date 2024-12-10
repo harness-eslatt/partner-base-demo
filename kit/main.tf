@@ -97,12 +97,13 @@ resource "harness_platform_secret_text" "docker_password" {
 }
 
 resource "harness_platform_connector_docker" "workshopdocker" {
-  identifier  = "workshopdocker"
-  name        = "Workshop Docker"
-  org_id      = var.org_id
-  project_id  = harness_platform_project.base_demo.identifier
-  type        = "DockerHub"
-  url         = "https://index.docker.io/v2/"
+  identifier          = "workshopdocker"
+  name                = "Workshop Docker"
+  org_id              = var.org_id
+  project_id          = harness_platform_project.base_demo.identifier
+  type                = "DockerHub"
+  url                 = "https://index.docker.io/v2/"
+  execute_on_delegate = false
 
   credentials {
     username_ref = harness_platform_secret_text.docker_username.identifier
@@ -281,7 +282,7 @@ service:
               store:
                 type: HarnessCode
                 spec:
-                  repoName: i201
+                  repoName: partner_base_demo
                   gitFetchType: Branch
                   paths:
                     - harness-deploy/backend/manifests
@@ -307,5 +308,115 @@ EOT
   depends_on = [
     harness_platform_project.base_demo,
     harness_platform_connector_docker.workshopdocker
+  ]
+}
+
+resource "harness_platform_monitored_service" "backend_dev" {
+  org_id     = var.org_id
+  project_id = harness_platform_project.base_demo.identifier
+  identifier = "backend_dev"
+  request {
+    name            = "backend"
+    type            = "Application"
+    service_ref     = harness_platform_service.backend.identifier
+    environment_ref = harness_platform_environment.dev.identifier
+    health_sources {
+      name       = "Prometheus"
+      identifier = "prometheus"
+      type       = "Prometheus"
+      spec = jsonencode({
+        connectorRef = harness_platform_connector_prometheus.prometheus.identifier
+        feature      = "apm"
+        metricDefinitions = [
+          {
+            identifier = "Prometheus_Metric"
+            metricName = "Prometheus Metric"
+            riskProfile = {
+              riskCategory = "Performance_Other"
+              thresholdTypes = [
+                "ACT_WHEN_HIGHER"
+              ]
+            }
+            analysis = {
+              liveMonitoring = {
+                enabled = true
+              }
+              deploymentVerification = {
+                enabled                  = true
+                serviceInstanceFieldName = "pod"
+              }
+              sli = {
+                enabled = true
+              }
+            }
+            query         = "avg(container_cpu_system_seconds_total{namespace=\"default\", container=\"backend\"})"
+            groupName     = "Infrastructure"
+            isManualQuery = true
+          }
+        ]
+      })
+    }
+  }
+
+  depends_on = [
+    harness_platform_project.base_demo,
+    harness_platform_service.backend,
+    harness_platform_environment.dev,
+    harness_platform_connector_prometheus.prometheus
+  ]
+}
+
+resource "harness_platform_monitored_service" "backend_prod" {
+  org_id     = var.org_id
+  project_id = harness_platform_project.base_demo.identifier
+  identifier = "backend_prod"
+  request {
+    name            = "backend"
+    type            = "Application"
+    service_ref     = harness_platform_service.backend.identifier
+    environment_ref = harness_platform_environment.prod.identifier
+    health_sources {
+      name       = "Prometheus"
+      identifier = "prometheus"
+      type       = "Prometheus"
+      spec = jsonencode({
+        connectorRef = harness_platform_connector_prometheus.prometheus.identifier
+        feature      = "apm"
+        metricDefinitions = [
+          {
+            identifier = "Prometheus_Metric"
+            metricName = "Prometheus Metric"
+            riskProfile = {
+              riskCategory = "Performance_Other"
+              thresholdTypes = [
+                "ACT_WHEN_HIGHER"
+              ]
+            }
+            analysis = {
+              liveMonitoring = {
+                enabled = true
+              }
+              deploymentVerification = {
+                enabled                  = true
+                serviceInstanceFieldName = "pod"
+              }
+              sli = {
+                enabled = true
+              }
+            }
+            query         = "avg(container_cpu_system_seconds_total{namespace=\"default\", container=\"backend\"})"
+            groupName     = "Infrastructure"
+            isManualQuery = true
+          }
+        ]
+      })
+    }
+  }
+
+  depends_on = [
+    harness_platform_project.base_demo,
+    harness_platform_service.backend,
+    harness_platform_environment.prod,
+    harness_platform_connector_prometheus.prometheus
   ]
 }

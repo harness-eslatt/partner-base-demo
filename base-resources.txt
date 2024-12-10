@@ -40,8 +40,14 @@ harness account - video uses fresh harness account against a fresh gmail to ensu
       terraform plan -var="pat=$DEMO_BASE_PAT" -var-file="se-parms.tfvars" -out=plan.tfplan 
       terraform apply -auto-approve plan.tfplan
     to reset
-      remove the repo partner_base_demo from harness using the harness ui > code repo module > manage repository, delete
-      remove the project Base Demo using the harness ui
+      harness
+        remove the repo partner_base_demo from harness using the harness ui > code repo module > manage repository, delete
+        remove the project Base Demo using the harness ui
+      minikube
+        remove frontend
+          kubectl TODO
+        remove backend
+          kubectl TODO
     covers
       connector k8s
       connector docker
@@ -53,6 +59,8 @@ harness account - video uses fresh harness account against a fresh gmail to ensu
       environment prod
       infrastructure k8s dev
       service backend
+      monitored service backend_dev
+      monitored service frontend_dev
   manual
     set repo to scan code
       harness ui > code repo module > manage repositor > security, set secret scanning to on and save

@@ -41,9 +41,8 @@
         source id: frontend
         image path: edslatt/harness-demo
         tag: demo-base-<+pipeline.sequenceId>
-    environment
-      env: dev
-      infrastructure: k8s dev
+    environment: dev
+    infrastructure: k8s dev
     rolling
   run it and see it work
     see components in minikube
@@ -55,7 +54,7 @@
 
 4-cd-backend
   add k8s type deployment stage "Backend - Deployment"
-    backend service, propagate env, canary
+    backend service, propagate dev env and infra, canary
   run it and see it work
     see components in minikube
       kubectl get pods -A | grep deployment
