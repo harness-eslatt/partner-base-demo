@@ -5,3 +5,9 @@ query
 avg(container_cpu_system_seconds_total { namespace="default" , container="backend"})
 
 
+root@sandbox:/opt/workshop# curl -G 'http://10.32.0.199:9090/api/v1/query_range' \
+  --data-urlencode 'query=avg(container_cpu_system_seconds_total{namespace="default", container="backend"})' \
+  --data-urlencode 'start='$(date -d '10 minutes ago' +%s) \
+  --data-urlencode 'end='$(date +%s) \
+  --data-urlencode 'step=60s'
+{"status":"success","data":{"resultType":"matrix","result":[{"metric":{},"values":[[1733867509,"0.4835583333333333"],[1733867569,"0.49080799999999997"],[1733867629,"0.498169"],[1733867689,"0.5085835000000001"],[1733867749,"0.5129823333333333"],[1733867809,"0.5216348333333334"],[1733867869,"0.532668"],[1733867929,"0.5430818333333334"],[1733867989,"0.5520283333333333"],[1733868049,"0.5524788333333333"],[1733868109,"0.5528845000000001"]]}]}}root@sandbox:/opt/workshop# 
